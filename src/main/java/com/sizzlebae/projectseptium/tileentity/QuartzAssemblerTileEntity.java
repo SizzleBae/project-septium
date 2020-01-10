@@ -5,6 +5,8 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.sizzlebae.projectseptium.ProjectSeptium;
+import com.sizzlebae.projectseptium.container.QuartzAssemblerContainer;
 import com.sizzlebae.projectseptium.init.ModBlocks;
 import com.sizzlebae.projectseptium.init.ModTileEntityTypes;
 
@@ -220,10 +222,15 @@ public class QuartzAssemblerTileEntity extends TileEntity implements ITickableTi
         return new TranslationTextComponent(ModBlocks.QUARTZ_ASSEMBLER.getTranslationKey());
     }
 
+    /**
+     * Called from {@link NetworkHooks#openGui}
+     * (which is called from {@link ElectricFurnaceBlock#onBlockActivated} on the logical server)
+     *
+     * @return The logical-server-side Container for this TileEntity
+     */
     @Nullable
     @Override
-    public Container createMenu(int p_createMenu_1_, PlayerInventory p_createMenu_2_, PlayerEntity p_createMenu_3_) {
-        // TODO: Create menu..
-        return null;
+    public Container createMenu(final int windowId, final PlayerInventory inventory, final PlayerEntity player) {
+        return new QuartzAssemblerContainer(windowId, inventory, this);
     }
 }

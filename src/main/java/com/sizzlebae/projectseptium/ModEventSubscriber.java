@@ -4,15 +4,18 @@ import javax.annotation.Nonnull;
 
 import com.google.common.base.Preconditions;
 import com.sizzlebae.projectseptium.block.QuartzAssemblerBlock;
+import com.sizzlebae.projectseptium.container.QuartzAssemblerContainer;
 import com.sizzlebae.projectseptium.init.ModBlocks;
 import com.sizzlebae.projectseptium.init.ModItemGroups;
 import com.sizzlebae.projectseptium.tileentity.QuartzAssemblerTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -23,6 +26,10 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 @EventBusSubscriber(modid = ProjectSeptium.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class ModEventSubscriber {
 
+    /**
+     * This method will be called by Forge when it is time for the mod to register its Blocks.
+     * This method will always be called before the Item registry method.
+     */
     @SubscribeEvent
     public static void onRegisterBlocks(RegistryEvent.Register<Block> event) {
         event.getRegistry().registerAll(
@@ -32,6 +39,10 @@ public class ModEventSubscriber {
                         "quartz_assembler"));
     }
 
+    /**
+     * This method will be called by Forge when it is time for the mod to register its Items.
+     * This method will always be called after the Block registry method.
+     */
     @SubscribeEvent
     public static void onRegisterItems(RegistryEvent.Register<Item> event) {
         final IForgeRegistry<Item> registry = event.getRegistry();
@@ -51,6 +62,10 @@ public class ModEventSubscriber {
                 });
     }
 
+    /**
+     * This method will be called by Forge when it is time for the mod to register its TileEntityType.
+     * This method will always be called after the Block and Item registry methods.
+     */
     @SubscribeEvent
     public static void onRegisterTileEntityTypes(RegistryEvent.Register<TileEntityType<?>> event) {
         event.getRegistry().registerAll(setup(
@@ -59,10 +74,21 @@ public class ModEventSubscriber {
     }
 
     /**
+     * This method will be called by Forge when it is time for the mod to register its ContainerTypes.
+     * This method will always be called after the Block and Item registry methods.
+     */
+    @SubscribeEvent
+    public static void onRegisterContainerTypes(@Nonnull final RegistryEvent.Register<ContainerType<?>> event) {
+    event.getRegistry().registerAll(
+            setup(IForgeContainerType.create(QuartzAssemblerContainer::new), "quartz_assembler"));
+
+    }
+
+
+    /**
      * Performs setup on a registry entry
      *
-     * @param name The path of the entry's name. Used to make a name who's domain is
-     *             our mod's modid
+     * @param name The path of the entry's name. Used to make a name who's domain is our mod's modid
      */
     @Nonnull
     private static <T extends IForgeRegistryEntry<T>> T setup(@Nonnull final T entry, @Nonnull final String name) {
