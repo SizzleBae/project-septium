@@ -1,15 +1,19 @@
 package com.sizzlebae.projectseptium.client;
 
+import com.sizzlebae.projectseptium.ProjectSeptium;
 import com.sizzlebae.projectseptium.client.gui.QuartzAssemblerScreen;
 import com.sizzlebae.projectseptium.init.ModContainerTypes;
 import net.minecraft.client.gui.ScreenManager;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModContainer;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 /**
  * Subscribe to events from the MOD EventBus that should be handled on the PHYSICAL CLIENT side in this class
  */
+@EventBusSubscriber(modid = ProjectSeptium.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientModEventSubscriber {
 
     /**

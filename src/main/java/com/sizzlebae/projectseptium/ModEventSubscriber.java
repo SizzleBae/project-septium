@@ -48,7 +48,8 @@ public class ModEventSubscriber {
         final IForgeRegistry<Item> registry = event.getRegistry();
 
         registry.registerAll(
-                setup(new Item(new Item.Properties().group(ModItemGroups.PROJECT_SEPTIUM_GROUP)), "sepith_item"));
+                setup(new Item(new Item.Properties().group(ModItemGroups.PROJECT_SEPTIUM_GROUP)), "sepith_item")
+        );
 
         ForgeRegistries.BLOCKS.getValues().stream()
                 .filter(block -> block.getRegistryName().getNamespace().equals(ProjectSeptium.MODID)).forEach(block -> {
@@ -69,8 +70,8 @@ public class ModEventSubscriber {
     @SubscribeEvent
     public static void onRegisterTileEntityTypes(RegistryEvent.Register<TileEntityType<?>> event) {
         event.getRegistry().registerAll(setup(
-                TileEntityType.Builder.create(QuartzAssemblerTileEntity::new, ModBlocks.QUARTZ_ASSEMBLER).build(null),
-                "quartz_assembler"));
+                TileEntityType.Builder.create(QuartzAssemblerTileEntity::new, ModBlocks.QUARTZ_ASSEMBLER).build(null), "quartz_assembler")
+        );
     }
 
     /**
@@ -79,9 +80,9 @@ public class ModEventSubscriber {
      */
     @SubscribeEvent
     public static void onRegisterContainerTypes(@Nonnull final RegistryEvent.Register<ContainerType<?>> event) {
-    event.getRegistry().registerAll(
-            setup(IForgeContainerType.create(QuartzAssemblerContainer::new), "quartz_assembler"));
-
+        event.getRegistry().registerAll(
+                setup(IForgeContainerType.create(QuartzAssemblerContainer::new), "quartz_assembler")
+        );
     }
 
 

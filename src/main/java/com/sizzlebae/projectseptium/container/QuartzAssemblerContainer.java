@@ -10,6 +10,7 @@ import net.minecraft.inventory.container.Slot;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
+import net.minecraftforge.items.SlotItemHandler;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -39,6 +40,9 @@ public class QuartzAssemblerContainer extends Container {
         // Add all the slots for the tileEntity's inventory and the playerInventory to this container
 
         // Tile inventory slot(s)
+        this.addSlot(new SlotItemHandler(tileEntity.inventory, QuartzAssemblerTileEntity.INPUT_SLOT, 56, 35));
+        this.addSlot(new SlotItemHandler(tileEntity.inventory, QuartzAssemblerTileEntity.OUTPUT_SLOT, 116, 35));
+
         // TODO: Design quartz inventory assembling layout instead
         // this.addSlot(new SlotItemHandler(tileEntity.inventory, HeatCollectorTileEntity.FUEL_SLOT, 80, 35));
 
