@@ -1,0 +1,19 @@
+{
+    "variants": {
+        "facing=north": {
+            "model": "project-septium:block/quartz_assembler"
+        },
+        "facing=south": {
+            "model": "project-septium:block/quartz_assembler",
+            "y": 180
+        },
+        "facing=west": {
+            "model": "project-septium:block/quartz_assembler",
+            "y": 270
+        },
+        "facing=east": {
+            "model": "project-septium:block/quartz_assembler",
+            "y": 90
+        }
+    }
+}

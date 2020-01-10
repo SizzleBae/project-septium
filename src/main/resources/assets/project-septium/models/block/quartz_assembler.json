@@ -1,0 +1,6 @@
+{
+    "parent": "block/furnace",
+    "textures": {
+        "front": "project-septium:block/quartz_assembler_front"
+    }
+}
