@@ -1,6 +1,7 @@
 package com.sizzlebae.projectseptium.tileentity;
 
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -36,22 +37,22 @@ import net.minecraftforge.items.wrapper.RangedWrapper;
 
 public class QuartzAssemblerTileEntity extends TileEntity implements ITickableTileEntity, INamedContainerProvider {
 
-    public static final int INPUT_SLOT = 0;
-    public static final int OUTPUT_SLOT = 1;
+    public static final int[] INPUT_SLOTS = {0,1,2,3,4,5};
+    public static final int OUTPUT_SLOT = 6;
 
     private static final String INVENTORY_TAG = "inventory";
 
-    public final ItemStackHandler inventory = new ItemStackHandler(2) {
+    public final ItemStackHandler inventory = new ItemStackHandler(7) {
         @Override
         public boolean isItemValid(final int slot, @Nonnull final ItemStack stack) {
-            switch (slot) {
-            case INPUT_SLOT:
+            if(IntStream.of(INPUT_SLOTS).anyMatch(x -> x == slot)) {
                 return isInput(stack);
-            case OUTPUT_SLOT:
+
+            } else if(slot == OUTPUT_SLOT) {
                 return isOutput(stack);
-            default:
-                return false;
             }
+
+            return false;
         }
 
         @Override
@@ -64,7 +65,7 @@ public class QuartzAssemblerTileEntity extends TileEntity implements ITickableTi
 
     private final LazyOptional<ItemStackHandler> inventoryCapabilityExternal = LazyOptional.of(() -> this.inventory);
 
-    private final LazyOptional<IItemHandlerModifiable> inventoryCapabilityExternalUpAndSides = LazyOptional.of(() -> new RangedWrapper(this.inventory, INPUT_SLOT, INPUT_SLOT + 1));
+    private final LazyOptional<IItemHandlerModifiable> inventoryCapabilityExternalUpAndSides = LazyOptional.of(() -> new RangedWrapper(this.inventory, INPUT_SLOTS[0], INPUT_SLOTS[INPUT_SLOTS.length - 1] + 1));
 
     private final LazyOptional<IItemHandlerModifiable> inventoryCapabilityExternalDown = LazyOptional.of(() -> new RangedWrapper(this.inventory, OUTPUT_SLOT, OUTPUT_SLOT + 1));
 
@@ -87,8 +88,9 @@ public class QuartzAssemblerTileEntity extends TileEntity implements ITickableTi
      * @return If the stack's item is equal to the result of smelting our input
      */
     private boolean isOutput(final ItemStack stack) {
-        final Optional<ItemStack> result = getResult(inventory.getStackInSlot(INPUT_SLOT));
-        return result.isPresent() && ItemStack.areItemsEqual(result.get(), stack);
+        //final Optional<ItemStack> result = getResult(inventory.getStackInSlot(INPUT_SLOT));
+        //return result.isPresent() && ItemStack.areItemsEqual(result.get(), stack);
+        return true;
     }
 
     /**
@@ -141,18 +143,6 @@ public class QuartzAssemblerTileEntity extends TileEntity implements ITickableTi
         } else {
             InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
         }
-    }
-
-    /**
-     * Mimics the code inAbstractFurnaceTileEntity#func_214005_h()
-     *
-     * @return The custom smelt time or 200 if there is no recipe for the input
-     */
-    private short getSmeltTime(final ItemStack input) {
-        return getRecipe(input)
-                .map(AbstractCookingRecipe::getCookTime)
-                .orElse(200)
-                .shortValue();
     }
 
     @Nonnull

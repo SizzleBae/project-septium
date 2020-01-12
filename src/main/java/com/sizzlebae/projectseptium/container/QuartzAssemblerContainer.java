@@ -7,6 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
@@ -37,17 +38,18 @@ public class QuartzAssemblerContainer extends Container {
         this.tileEntity = tileEntity;
         this.canInteractWithCallable = IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos());
 
-        // Add all the slots for the tileEntity's inventory and the playerInventory to this container
+        // Quartz Assembler slots
+        this.addSlot(new SlotItemHandler(tileEntity.inventory, QuartzAssemblerTileEntity.INPUT_SLOTS[0], 58, 13));
+        this.addSlot(new SlotItemHandler(tileEntity.inventory, QuartzAssemblerTileEntity.INPUT_SLOTS[1], 31, 58));
+        this.addSlot(new SlotItemHandler(tileEntity.inventory, QuartzAssemblerTileEntity.INPUT_SLOTS[2], 58, 103));
+        this.addSlot(new SlotItemHandler(tileEntity.inventory, QuartzAssemblerTileEntity.INPUT_SLOTS[3], 112, 13));
+        this.addSlot(new SlotItemHandler(tileEntity.inventory, QuartzAssemblerTileEntity.INPUT_SLOTS[4], 139, 58));
+        this.addSlot(new SlotItemHandler(tileEntity.inventory, QuartzAssemblerTileEntity.INPUT_SLOTS[5], 112, 103));
+        this.addSlot(new SlotItemHandler(tileEntity.inventory, QuartzAssemblerTileEntity.OUTPUT_SLOT, 85, 58));
 
-        // Tile inventory slot(s)
-        this.addSlot(new SlotItemHandler(tileEntity.inventory, QuartzAssemblerTileEntity.INPUT_SLOT, 56, 35));
-        this.addSlot(new SlotItemHandler(tileEntity.inventory, QuartzAssemblerTileEntity.OUTPUT_SLOT, 116, 35));
-
-        // TODO: Design quartz inventory assembling layout instead
-        // this.addSlot(new SlotItemHandler(tileEntity.inventory, HeatCollectorTileEntity.FUEL_SLOT, 80, 35));
-
-        final int playerInventoryStartX = 8;
-        final int playerInventoryStartY = 84;
+        // Inventory slots
+        final int playerInventoryStartX = 12;
+        final int playerInventoryStartY = 129;
         final int slotSizePlus2 = 18; // slots are 16x16, plus 2 (for spacing/borders) is 18x18
 
         // Player Top Inventory slots
@@ -74,6 +76,24 @@ public class QuartzAssemblerContainer extends Container {
         }
         throw new IllegalStateException("Tile entity is not correct! " + tileAtPos);
     }
+
+
+    /**
+     * Generic & dynamic version of {@link Container#transferStackInSlot(PlayerEntity, int)}.
+     * Handle when the stack in slot {@code index} is shift-clicked.
+     * Normally this moves the stack between the player inventory and the other inventory(s).
+     *
+     * @param player the player passed in
+     * @param index  the index passed in
+     * @return the {@link ItemStack}
+     */
+    @Nonnull
+    @Override
+    public ItemStack transferStackInSlot(final PlayerEntity player, final int index) {
+        ItemStack returnStack = ItemStack.EMPTY;
+        return returnStack;
+    }
+
 
     @Override
     public boolean canInteractWith(@Nonnull final PlayerEntity playerIn) {

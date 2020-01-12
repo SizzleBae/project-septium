@@ -15,6 +15,9 @@ public class QuartzAssemblerScreen extends ContainerScreen<QuartzAssemblerContai
 
     public QuartzAssemblerScreen(QuartzAssemblerContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
         super(screenContainer, inv, titleIn);
+
+        this.xSize = 186;
+        this.ySize = 222;
     }
 
     @Override
@@ -31,13 +34,12 @@ public class QuartzAssemblerScreen extends ContainerScreen<QuartzAssemblerContai
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
         String s = this.title.getFormattedText();
-        this.font.drawString(s,(float) (this.xSize / 2 - this.font.getStringWidth(s) / 2), 6.0F, 0x404040);
-        this.font.drawString("HELLO FROM QUARTZ ASSEMBLER", 8, (float) (this.ySize - 96 + 2), 0x404040);
+        this.font.drawString(s,(float) (this.xSize / 2 - this.font.getStringWidth(s) / 2), 4.0F, 0x404040);
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        GlStateManager.color4f(1.0F, 1.0F, 0.0F, 1.0F);
+        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         getMinecraft().getTextureManager().bindTexture(BACKGROUND_TEXTURE);
         int startX = this.guiLeft;
